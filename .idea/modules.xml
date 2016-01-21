@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ccf_android_login.iml" filepath="$PROJECT_DIR$/ccf_android_login.iml" />
+      <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/login_presentation/login_presentation.iml" filepath="$PROJECT_DIR$/login_presentation/login_presentation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/login_repository/login_repository.iml" filepath="$PROJECT_DIR$/login_repository/login_repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/login_view/login_view.iml" filepath="$PROJECT_DIR$/login_view/login_view.iml" />
+    </modules>
+  </component>
+</project>

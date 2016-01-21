@@ -1,0 +1,65 @@
+apply plugin: 'com.android.library'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
+
+    defaultConfig {
+        minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+        targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+
+        versionCode globalConfiguration.getAt("androidVersionCode")
+        versionName globalConfiguration.getAt("androidVersionName")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+apply plugin: 'android-apt'
+dependencies {
+    def androidDependencies = rootProject.ext.androidDependencies
+    def testDependencies = rootProject.ext.testDependencies
+
+    apt androidDependencies.annotations_apt
+    compile androidDependencies.annotations_api
+    compile androidDependencies.dagger
+    apt androidDependencies.dagger_apt
+
+    compile androidDependencies.appcompat_v7
+    compile androidDependencies.cardview_v7
+    compile androidDependencies.design
+
+    compile 'com.github.rey5137:material:1.2.1'
+    compile 'com.github.mrengineer13:snackbar:1.2.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.easing:library:1.0.1@aar'
+    compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+
+    compile rootProject.ext.logicDependencies.loginLogic
+    compile androidDependencies.baseUi
+    compile project(':login_presentation')
+
+    testCompile testDependencies.jUnit
+    testCompile testDependencies.mockito
+}
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+        applicationId android.defaultConfig.applicationId
+    }
+}
+

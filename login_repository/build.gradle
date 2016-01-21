@@ -1,0 +1,57 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.3'
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration.getAt("androidCompileSdkVersion")
+    buildToolsVersion globalConfiguration.getAt("androidBuildToolsVersion")
+
+    defaultConfig {
+        minSdkVersion globalConfiguration.getAt("androidMinSdkVersion")
+        targetSdkVersion globalConfiguration.getAt("androidTargetSdkVersion")
+
+        versionCode globalConfiguration.getAt("androidVersionCode")
+        versionName globalConfiguration.getAt("androidVersionName")
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'  // Some libraries have issues with this
+        disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
+    }
+}
+
+dependencies {
+    def logicDependencies = rootProject.ext.logicDependencies
+    def androidDependencies = rootProject.ext.androidDependencies
+
+    compile('com.octo.android.robospice:robospice-spring-android:1.4.14') {
+        exclude group: 'org.apache.commons', module: 'commons-io'
+    }
+    compile logicDependencies.loginLogic
+    compile logicDependencies.baseLogic
+    compile androidDependencies.rxAndroid
+
+}

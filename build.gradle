@@ -1,0 +1,29 @@
+apply from: 'buildsystem/dependencies.gradle'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.0.0-alpha5'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+    }
+}
+
+allprojects {
+    ext {
+        androidVersionCode = 1
+        androidVersionName = "1.0"
+        androidApplicationId = "com.ccf.main"
+    }
+    repositories {
+        jcenter()
+        maven {
+            url  "http://dl.bintray.com/bauerfx/ccf_logic"
+        }
+        maven {
+            url  "http://dl.bintray.com/bauerfx/ccf_android"
+        }
+    }
+}
+

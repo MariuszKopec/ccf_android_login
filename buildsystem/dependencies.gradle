@@ -1,0 +1,40 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    androidBuildToolsVersion = "23.0.2"
+    androidMinSdkVersion = 16
+    androidTargetSdkVersion = 23
+    androidCompileSdkVersion = 23
+
+
+    androidDependencies = [
+            appcompat_v7:       "com.android.support:appcompat-v7:23.0.1",
+            cardview_v7:        "com.android.support:cardview-v7:23.0.1",
+            design:             "com.android.support:design:23.0.1",
+            supportV4:          "com.android.support:support-v4:23.0.1",
+            dagger:             "com.squareup.dagger:dagger:1.2.0",
+            dagger_apt:         "com.squareup.dagger:dagger-compiler:1.2.0",
+            rxAndroid:          "io.reactivex:rxandroid:0.24.0",
+            annotations_api:    "org.androidannotations:androidannotations-api:3.2",
+            annotations_apt:    "org.androidannotations:androidannotations:3.2",
+            javaxAnnotation:    "javax.annotation:jsr250-api:1.0",
+
+            baseUi:             "com.ccf.android:ui_base:1.0@aar",
+            basePresentation:   "com.ccf.android:presentation_base:1.0@aar"
+    ]
+
+    logicDependencies = [
+            baseLogic:          "com.ccf.logic:base:1.10@jar",
+            loginLogic:         "com.ccf.logic:login:1.10@jar",
+            rxJava:             "io.reactivex:rxjava:1.0.8"
+    ]
+
+    testDependencies = [
+            jUnit:              "junit:junit:4.12",
+            mockito:            "org.mockito:mockito-core:1.9.5"
+    ]
+}
