@@ -23,13 +23,13 @@ ext {
             annotations_apt:    "org.androidannotations:androidannotations:3.2",
             javaxAnnotation:    "javax.annotation:jsr250-api:1.0",
 
-            baseUi:             "com.ccf.android:ui_base:1.0@aar",
-            basePresentation:   "com.ccf.android:presentation_base:1.0@aar"
+            baseUi:             "com.ccf.android:ui_base:1.12@aar",
+            basePresentation:   "com.ccf.android:presentation_base:1.12@aar"
     ]
 
     logicDependencies = [
-            baseLogic:          "com.ccf.logic:base:1.10@jar",
-            loginLogic:         "com.ccf.logic:login:1.10@jar",
+            baseLogic:          "com.ccf.logic:base:1.12@jar",
+            loginLogic:         "com.ccf.logic:login:1.13@jar",
             rxJava:             "io.reactivex:rxjava:1.0.8"
     ]
 

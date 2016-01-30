@@ -1,5 +1,9 @@
 package com.ccf.main.login;
 
+import android.app.Activity;
+import android.content.Context;
+
+import com.ccf.logic.view.LoginActivityListener;
 import com.ccf.logic.view.LoginActivity_;
 import com.ccf.logic.view.LoginFragment_;
 import com.ccf.android.presentation.login.LoginActivityPresenter;
@@ -17,7 +21,12 @@ public class LoginModule {
     }
 
     @Provides
-    LoginActivityPresenter provideStartPresenter() {
-        return new LoginActivityPresenter();
+    LoginActivityListener provideStartPresenter() {
+        return new LoginActivityListener() {
+            @Override
+            public void onLoginCorrect(Activity activity) {
+                activity.finish();
+            }
+        };
     }
 }

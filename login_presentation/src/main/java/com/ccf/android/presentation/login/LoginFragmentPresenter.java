@@ -21,5 +21,6 @@ public interface LoginFragmentPresenter {
         void setUserPicture(Bitmap picture);
         void onLoginCorrect();
         boolean isPasswordState();
+        void setPasswordState();
     }
 }

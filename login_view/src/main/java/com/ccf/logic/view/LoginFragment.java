@@ -33,40 +33,24 @@ import javax.inject.Inject;
 @EFragment(resName = "login_fragment_layout")
 public class LoginFragment extends BaseFragment implements LoginFragmentPresenter.LoginView {
     private static final int ANIMATION_TIME = 200;
-
-    private static enum State {USER_STATE, PASSWORD_SATE}
-
-    ;
-
-    @ViewById
-    android.support.v7.widget.CardView card_view;
-    @ViewById
-    EditText login_name;
-    @ViewById
-    EditText login_password;
-    @ViewById
-    TextView user_name_lastname;
-    @ViewById
-    com.rey.material.widget.Button next_button;
-    @ViewById
-    com.rey.material.widget.Button login_button;
-    @ViewById
-    com.rey.material.widget.ProgressView progress;
-    @ViewById
-    TextView logging_text;
-    @ViewById
-    View login_layout;
-    @ViewById
-    View password_layout;
-    @ViewById
-    View back_arrow;
-    @ViewById
-    de.hdodenhof.circleimageview.CircleImageView profile_image;
-    @Inject
-    LoginFragmentPresenter presenter;
+    private static enum State {USER_STATE, PASSWORD_SATE};
     private LoginFragmentListener listener;
     private SnackBar snackBar;
     private State state = State.USER_STATE;
+
+    @ViewById android.support.v7.widget.CardView card_view;
+    @ViewById EditText login_name;
+    @ViewById EditText login_password;
+    @ViewById TextView user_name_lastname;
+    @ViewById com.rey.material.widget.Button next_button;
+    @ViewById com.rey.material.widget.Button login_button;
+    @ViewById com.rey.material.widget.ProgressView progress;
+    @ViewById TextView logging_text;
+    @ViewById View login_layout;
+    @ViewById View password_layout;
+    @ViewById View back_arrow;
+    @ViewById de.hdodenhof.circleimageview.CircleImageView profile_image;
+    @Inject LoginFragmentPresenter presenter;
 
     @AfterViews
     void init() {
@@ -104,9 +88,8 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
                 public void run() {
                     if (state == State.USER_STATE)
                         profile_image.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_account_circle));
-                    else {
+                    else
                         profile_image.setImageDrawable(drawable);
-                    }
                     profile_image.animate().alpha(1).setDuration(ANIMATION_TIME).setInterpolator(new DecelerateInterpolator()).start();
                 }
             }).start();
@@ -148,6 +131,11 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
         animateToPasswordState();
         setEnabled(true);
         state = State.PASSWORD_SATE;
+    }
+
+    @Override
+    public void setPasswordState() {
+        setPasswordState(user_name_lastname.getText().toString());
     }
 
     @Click

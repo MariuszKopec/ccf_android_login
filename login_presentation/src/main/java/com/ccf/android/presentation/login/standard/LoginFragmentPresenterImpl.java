@@ -2,6 +2,7 @@ package com.ccf.android.presentation.login.standard;
 
 import android.graphics.Bitmap;
 
+import com.ccf.android.presentation.base.BasePresenter;
 import com.ccf.android.presentation.login.LoginFragmentPresenter;
 import com.ccf.logic.interactor.DefaultSubscriber;
 import com.ccf.logic.interactor.UseCase;
@@ -9,12 +10,11 @@ import com.ccf.logic.login.Picture;
 import com.ccf.logic.login.User;
 import com.ccf.android.presentation.base.BitmapUtils;
 
-public class LoginFragmentPresenterImpl implements LoginFragmentPresenter {
+import rx.Subscriber;
+
+public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFragmentPresenter {
     private final LoginUseCaseFactory useCaseFactory;
     private LoginFragmentPresenter.LoginView view;
-    private UseCase getUserFromInitUseCase;
-    private UseCase getUserUseCase;
-    private UseCase getUserPictureUseCase;
 
     public LoginFragmentPresenterImpl(LoginUseCaseFactory useCaseFactory) {
         this.useCaseFactory = useCaseFactory;
@@ -27,8 +27,13 @@ public class LoginFragmentPresenterImpl implements LoginFragmentPresenter {
 
     @Override
     public void init(Object context) {
-        getUserFromInitUseCase = useCaseFactory.getInitUseCase(context);
-        getUserFromInitUseCase.execute(new GetUserFromInitSubscriber());
+        getUserFromInit(context);
+    }
+
+    private void getUserFromInit(Object context) {
+        UseCase useCase = useCaseFactory.getInitUseCase(context);
+        useCase.execute(new GetUserFromInitSubscriber());
+        registerUseCase(useCase);
     }
 
     @Override
@@ -37,9 +42,14 @@ public class LoginFragmentPresenterImpl implements LoginFragmentPresenter {
             view.showIncorrectLoginNameMassage();
         else {
             view.setBusyState();
-            getUserUseCase = useCaseFactory.getUserUseCase(login);
-            getUserUseCase.execute(new GetUserSubscriber());
+            getUser(login);
         }
+    }
+
+    private void getUser(String login) {
+        UseCase useCase = useCaseFactory.getUserUseCase(login);
+        useCase.execute(new GetUserSubscriber());
+        registerUseCase(useCase);
     }
 
     private void onUserReceived(User user) {
@@ -48,13 +58,14 @@ public class LoginFragmentPresenterImpl implements LoginFragmentPresenter {
             view.setUserState();
         } else {
             view.setPasswordState(user.getName() + " " + user.getLastName());
-            startGettingUserPicture(user.getLogin());
+            getUserPicture(user.getLogin());
         }
     }
 
-    private void startGettingUserPicture(String login) {
-        getUserPictureUseCase = useCaseFactory.getPictureUseCase(login);
-        getUserPictureUseCase.execute(new GetUserPictureSubscriber());
+    private void getUserPicture(String login) {
+        UseCase useCase = useCaseFactory.getPictureUseCase(login);
+        useCase.execute(new GetUserPictureSubscriber());
+        registerUseCase(useCase);
     }
 
     private void onPictureReceived(Picture picture) {
@@ -67,6 +78,20 @@ public class LoginFragmentPresenterImpl implements LoginFragmentPresenter {
     @Override
     public void loginButtonClicked(String login, String pass) {
         view.setBusyState();
+        checkUserPassword(login, pass);
+    }
+
+    private void checkUserPassword(String login, String pass) {
+        UseCase useCase = useCaseFactory.checkUserPasswordUseCase(login, pass);
+        useCase.execute(new CheckUserPasswordSubscriber());
+        registerUseCase(useCase);
+    }
+
+    private void onUserPasswordChecked(boolean isCorrect) {
+        if(isCorrect)
+            view.onLoginCorrect();
+        else
+            view.setPasswordState();
     }
 
     @Override
@@ -77,20 +102,6 @@ public class LoginFragmentPresenterImpl implements LoginFragmentPresenter {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void onDestroy() {
-        unsubscribe();
-    }
-
-    private void unsubscribe() {
-        if(getUserFromInitUseCase != null)
-            getUserFromInitUseCase.unsubscribe();
-        if(getUserFromInitUseCase != null)
-            getUserFromInitUseCase.unsubscribe();
-        if(getUserPictureUseCase != null)
-            getUserPictureUseCase.unsubscribe();
     }
 
     private final class GetUserFromInitSubscriber extends DefaultSubscriber<User> {
@@ -129,6 +140,19 @@ public class LoginFragmentPresenterImpl implements LoginFragmentPresenter {
         @Override
         public void onNext(Picture picture) {
             onPictureReceived(picture);
+        }
+    }
+
+    private final class CheckUserPasswordSubscriber extends DefaultSubscriber<Boolean> {
+        @Override
+        public void onError(Throwable e) {
+            view.showUnknownExceptionMessage(e);
+            view.setUserState();
+        }
+
+        @Override
+        public void onNext(Boolean isCorrect) {
+            onUserPasswordChecked(isCorrect);
         }
     }
 }

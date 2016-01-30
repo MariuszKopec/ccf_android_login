@@ -3,6 +3,7 @@ package com.ccf.main.login;
 import com.ccf.logic.executor.PostExecutionThread;
 import com.ccf.logic.executor.ThreadExecutor;
 import com.ccf.logic.interactor.UseCase;
+import com.ccf.logic.login.interactor.CheckUserPasswordUseCase;
 import com.ccf.logic.login.interactor.GetUserPictureUseCase;
 import com.ccf.logic.login.interactor.GetUserUseCase;
 import com.ccf.logic.login.interactor.InitUseCase;
@@ -35,5 +36,10 @@ public class LoginUseCaseFactoryImpl implements LoginUseCaseFactory {
     @Override
     public UseCase getPictureUseCase(String login) {
         return new GetUserPictureUseCase(login, repository, threadExecutor, postExecutionThread);
+    }
+
+    @Override
+    public UseCase checkUserPasswordUseCase(String login, String password) {
+        return new CheckUserPasswordUseCase(login, password, repository, threadExecutor, postExecutionThread);
     }
 }

@@ -6,4 +6,5 @@ public interface LoginUseCaseFactory {
     UseCase getInitUseCase(Object context);
     UseCase getUserUseCase(String login);
     UseCase getPictureUseCase(String login);
+    UseCase checkUserPasswordUseCase(String login, String password);
 }
