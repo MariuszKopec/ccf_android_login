@@ -1,14 +1,13 @@
 package com.ccf.main.login;
 
 import android.app.Activity;
-import android.content.Context;
 
+import com.ccf.android.presentation.login.LoginFragmentPresenter;
+import com.ccf.android.presentation.login.standard.LoginFragmentPresenterImpl;
 import com.ccf.logic.view.LoginActivityListener;
 import com.ccf.logic.view.LoginActivity_;
 import com.ccf.logic.view.LoginFragment_;
-import com.ccf.android.presentation.login.LoginActivityPresenter;
-import com.ccf.android.presentation.login.LoginFragmentPresenter;
-import com.ccf.android.presentation.login.standard.LoginFragmentPresenterImpl;
+import com.ccf.android.presentation.utils.impl.BitmapUtilsImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -17,7 +16,7 @@ import dagger.Provides;
 public class LoginModule {
     @Provides
     LoginFragmentPresenter provideLoginPresenter() {
-        return new LoginFragmentPresenterImpl(new LoginUseCaseFactoryImpl());
+        return new LoginFragmentPresenterImpl(new LoginUseCaseFactoryImpl(), new BitmapUtilsImpl());
     }
 
     @Provides

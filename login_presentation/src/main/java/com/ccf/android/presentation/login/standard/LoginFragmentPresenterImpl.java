@@ -1,23 +1,24 @@
 package com.ccf.android.presentation.login.standard;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.ccf.android.presentation.base.BasePresenter;
 import com.ccf.android.presentation.login.LoginFragmentPresenter;
+import com.ccf.android.presentation.utils.BitmapUtils;
 import com.ccf.logic.interactor.DefaultSubscriber;
 import com.ccf.logic.interactor.UseCase;
 import com.ccf.logic.login.Picture;
 import com.ccf.logic.login.User;
-import com.ccf.android.presentation.base.BitmapUtils;
-
-import rx.Subscriber;
 
 public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFragmentPresenter {
     private final LoginUseCaseFactory useCaseFactory;
+    private final BitmapUtils bitmapUtils;
     private LoginFragmentPresenter.LoginView view;
 
-    public LoginFragmentPresenterImpl(LoginUseCaseFactory useCaseFactory) {
+    public LoginFragmentPresenterImpl(LoginUseCaseFactory useCaseFactory, BitmapUtils bitmapUtils) {
         this.useCaseFactory = useCaseFactory;
+        this.bitmapUtils = bitmapUtils;
     }
 
     @Override
@@ -70,7 +71,7 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
 
     private void onPictureReceived(Picture picture) {
         if (view.isPasswordState()) {
-            Bitmap bitmap = BitmapUtils.decodeBitmapFromBase64(picture.getPicture());
+            Bitmap bitmap = bitmapUtils.decodeBitmapFromBase64(picture.getPicture());
             view.setUserPicture(bitmap);
         }
     }
@@ -88,7 +89,7 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
     }
 
     private void onUserPasswordChecked(boolean isCorrect) {
-        if(isCorrect)
+        if (isCorrect)
             view.onLoginCorrect();
         else
             view.setPasswordState();
@@ -152,7 +153,7 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
 
         @Override
         public void onNext(Boolean isCorrect) {
-            onUserPasswordChecked(isCorrect);
+            onUserPasswordChecked(isCorrect != null && isCorrect);
         }
     }
 }

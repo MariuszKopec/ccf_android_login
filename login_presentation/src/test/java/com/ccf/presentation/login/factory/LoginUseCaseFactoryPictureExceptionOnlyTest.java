@@ -20,4 +20,9 @@ public class LoginUseCaseFactoryPictureExceptionOnlyTest implements LoginUseCase
     public UseCase getPictureUseCase(String login) {
         return new ReturnExceptionUseCaseMock();
     }
+
+    @Override
+    public UseCase checkUserPasswordUseCase(String login, String password) {
+        return null;
+    }
 }

@@ -3,7 +3,9 @@ package com.ccf.presentation.login;
 import android.graphics.Bitmap;
 
 import com.ccf.android.presentation.login.LoginFragmentPresenter;
+import com.ccf.android.presentation.utils.BitmapUtils;
 import com.ccf.presentation.login.factory.LoginUseCaseFactoryExceptionTest;
+import com.ccf.presentation.login.factory.LoginUseCaseFactoryFailureTest;
 import com.ccf.presentation.login.factory.LoginUseCaseFactoryNullTest;
 import com.ccf.presentation.login.factory.LoginUseCaseFactoryPictureExceptionOnlyTest;
 import com.ccf.presentation.login.factory.LoginUseCaseFactorySuccessTest;
@@ -29,8 +31,11 @@ public class LoginFragmentPresenterTest {
     @Mock
     LoginFragmentPresenter.LoginView view;
 
+    @Mock
+    BitmapUtils bitmapUtils;
+
     private LoginFragmentPresenterImpl getLoginFragmentPresenter(LoginUseCaseFactory useCaseFactory) {
-        LoginFragmentPresenterImpl presenter = new LoginFragmentPresenterImpl(useCaseFactory);
+        LoginFragmentPresenterImpl presenter = new LoginFragmentPresenterImpl(useCaseFactory, bitmapUtils);
         presenter.setView(view);
         return presenter;
     }
@@ -183,11 +188,38 @@ public class LoginFragmentPresenterTest {
     }
 
     @Test
-    public void testShouldSetBusyState() throws Exception {
+    public void testShouldSetBusyStateWhenLoginButtonHasClicked() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
         Mockito.verify(view).setBusyState();
+    }
+
+    @Test
+    public void testShouldRaiseOnLoginCorrectWhenPasswordIsCorrect() throws Exception {
+        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+
+        presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
+
+        Mockito.verify(view).onLoginCorrect();
+    }
+
+    @Test
+    public void testShouldSetPasswordStateWhenPasswordCheckResponseIsNull() throws Exception {
+        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+
+        presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
+
+        Mockito.verify(view).setPasswordState();
+    }
+
+    @Test
+    public void testShouldSetPasswordStateWhenPasswordCheckResponseIsFalse() throws Exception {
+        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryFailureTest());
+
+        presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
+
+        Mockito.verify(view).setPasswordState();
     }
 }

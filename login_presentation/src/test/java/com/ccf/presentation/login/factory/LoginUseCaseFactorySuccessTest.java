@@ -3,6 +3,7 @@ package com.ccf.presentation.login.factory;
 import com.ccf.logic.interactor.UseCase;
 import com.ccf.android.presentation.login.standard.LoginUseCaseFactory;
 import com.ccf.presentation.login.intaractor.ReturnPictureUseCaseMock;
+import com.ccf.presentation.login.intaractor.ReturnTrueUseCaseMock;
 import com.ccf.presentation.login.intaractor.ReturnUserUseCaseMock;
 
 public class LoginUseCaseFactorySuccessTest implements LoginUseCaseFactory {
@@ -20,5 +21,10 @@ public class LoginUseCaseFactorySuccessTest implements LoginUseCaseFactory {
     @Override
     public UseCase getPictureUseCase(String login) {
         return new ReturnPictureUseCaseMock();
+    }
+
+    @Override
+    public UseCase checkUserPasswordUseCase(String login, String password) {
+        return new ReturnTrueUseCaseMock();
     }
 }

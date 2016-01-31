@@ -23,8 +23,8 @@ ext {
             annotations_apt:    "org.androidannotations:androidannotations:3.2",
             javaxAnnotation:    "javax.annotation:jsr250-api:1.0",
 
-            baseUi:             "com.ccf.android:ui_base:1.12@aar",
-            basePresentation:   "com.ccf.android:presentation_base:1.12@aar"
+            baseUi:             "com.ccf.android:ui_base:1.15@aar",
+            basePresentation:   "com.ccf.android:presentation_base:1.15@aar"
     ]
 
     logicDependencies = [
