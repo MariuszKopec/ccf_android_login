@@ -22,8 +22,9 @@ ext {
             annotations_api:    "org.androidannotations:androidannotations-api:3.2",
             annotations_apt:    "org.androidannotations:androidannotations:3.2",
             javaxAnnotation:    "javax.annotation:jsr250-api:1.0",
+            material:           "com.github.rey5137:material:1.2.2",
 
-            baseUi:             "com.ccf.android:ui_base:1.15@aar",
+            baseUi:             "com.ccf.android:ui_base:1.16@aar",
             basePresentation:   "com.ccf.android:presentation_base:1.15@aar"
     ]
 

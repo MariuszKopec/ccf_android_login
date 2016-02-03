@@ -3,23 +3,22 @@ package com.ccf.logic.view;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Parcelable;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.ccf.android.ui.base.BaseFragment;
-import com.ccf.login.view.R;
 import com.ccf.android.presentation.login.LoginFragmentPresenter;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-import com.github.mrengineer13.snackbar.SnackBar;
-import com.nineoldandroids.animation.Animator;
+import com.ccf.android.ui.animation.DefaultAnimationListener;
+import com.ccf.android.ui.base.BaseFragment;
+import com.ccf.android.ui.widget.CircleImageView;
+import com.ccf.login.view.R;
+import com.rey.material.widget.SnackBar;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -35,7 +34,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
     private static final int ANIMATION_TIME = 200;
     private static enum State {USER_STATE, PASSWORD_SATE};
     private LoginFragmentListener listener;
-    private SnackBar snackBar;
+    private com.rey.material.widget.SnackBar snackBar;
     private State state = State.USER_STATE;
 
     @ViewById android.support.v7.widget.CardView card_view;
@@ -49,7 +48,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
     @ViewById View login_layout;
     @ViewById View password_layout;
     @ViewById View back_arrow;
-    @ViewById de.hdodenhof.circleimageview.CircleImageView profile_image;
+    @ViewById CircleImageView profile_image;
     @Inject LoginFragmentPresenter presenter;
 
     @AfterViews
@@ -57,6 +56,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
         listener = (LoginFragmentListener) getActivity();
         presenter.setView(this);
         presenter.init(getContext());
+        snackBar = new com.rey.material.widget.SnackBar(getActivity());
     }
 
     @Click
@@ -83,16 +83,18 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
     public void setUserPicture(final Bitmap bitmap) {
         final Drawable drawable = bitmap == null ? ContextCompat.getDrawable(getContext(), R.drawable.ic_account_circle) : new BitmapDrawable(getResources(), bitmap);
         if (profile_image.getDrawable().getConstantState().equals(drawable.getConstantState()) == false) {
-            profile_image.animate().alpha(0).setDuration(ANIMATION_TIME).setInterpolator(new AccelerateInterpolator()).withEndAction(new Runnable() {
+            Animation fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
+            fadeOut.setAnimationListener(new DefaultAnimationListener() {
                 @Override
-                public void run() {
+                public void onAnimationEnd(Animation animation) {
                     if (state == State.USER_STATE)
                         profile_image.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_account_circle));
                     else
                         profile_image.setImageDrawable(drawable);
-                    profile_image.animate().alpha(1).setDuration(ANIMATION_TIME).setInterpolator(new DecelerateInterpolator()).start();
+                    profile_image.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in));
                 }
-            }).start();
+            });
+            profile_image.startAnimation(fadeOut);
         }
     }
 
@@ -116,21 +118,52 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
     @Override
     @UiThread
     public void setUserState() {
-        setEnabled(true);
-        stopProgressBar();
-        animateToUserState();
-        setUserPicture(null);
-        state = State.USER_STATE;
+        if (state == State.PASSWORD_SATE) {
+            login_layout.setVisibility(View.VISIBLE);
+            login_layout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_left));
+            back_arrow.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out));
+            stopProgressBar();
+            setUserPicture(null);
+            Animation slideOutRight = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_right);
+            slideOutRight.setAnimationListener(new DefaultAnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    setEnabled(true);
+                    password_layout.setVisibility(View.INVISIBLE);
+                    login_name.requestFocus();
+                    login_name.selectAll();
+                    showKeyboard(login_name);
+                    state = State.USER_STATE;
+                }
+            });
+            password_layout.startAnimation(slideOutRight);
+        }
     }
 
     @Override
     @UiThread
-    public void setPasswordState(String name) {
-        user_name_lastname.setText(name);
-        stopProgressBar();
-        animateToPasswordState();
-        setEnabled(true);
-        state = State.PASSWORD_SATE;
+    public void setPasswordState(final String name) {
+        if (state == State.USER_STATE) {
+            user_name_lastname.setText(name);
+            password_layout.setVisibility(View.VISIBLE);
+            login_layout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_left));
+            back_arrow.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in));
+            setEnabled(true);
+            stopProgressBar();
+            Animation slideInRight = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_right);
+            slideInRight.setAnimationListener(new DefaultAnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    back_arrow.setVisibility(View.VISIBLE);
+                    login_layout.setVisibility(View.INVISIBLE);
+                    login_password.requestFocus();
+                    login_password.selectAll();
+                    showKeyboard(login_password);
+                    state = State.PASSWORD_SATE;
+                }
+            });
+            password_layout.startAnimation(slideInRight);
+        }
     }
 
     @Override
@@ -166,54 +199,8 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
         Log.e(getClass().getName(), "onLoginResponse_Failure", throwable);
     }
 
-    private void animateToUserState() {
-        if (state == State.PASSWORD_SATE) {
-            YoYo.with(Techniques.SlideInLeft).duration(ANIMATION_TIME).playOn(login_layout);
-            YoYo.with(Techniques.FadeIn).duration(ANIMATION_TIME).playOn(login_layout);
-            YoYo.with(Techniques.FadeOut).duration(ANIMATION_TIME).playOn(password_layout);
-            YoYo.with(Techniques.FadeOut).duration(ANIMATION_TIME).playOn(back_arrow);
-            YoYo.with(Techniques.SlideOutRight).withListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    password_layout.setVisibility(View.INVISIBLE);
-                    login_name.requestFocus();
-                    login_name.selectAll();
-                    showKeyboard(login_name);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-                }
-            }).duration(ANIMATION_TIME).playOn(password_layout);
-        }
-    }
-
-    private void animateToPasswordState() {
-        if (state == State.USER_STATE) {
-            YoYo.with(Techniques.SlideOutLeft).duration(ANIMATION_TIME).playOn(login_layout);
-            YoYo.with(Techniques.FadeOut).duration(ANIMATION_TIME).playOn(login_layout);
-            YoYo.with(Techniques.FadeIn).duration(ANIMATION_TIME).playOn(password_layout);
-            YoYo.with(Techniques.SlideInRight).duration(ANIMATION_TIME).playOn(password_layout);
-            password_layout.setVisibility(View.VISIBLE);
-            YoYo.with(Techniques.FadeIn).duration(ANIMATION_TIME).playOn(back_arrow);
-            back_arrow.setVisibility(View.VISIBLE);
-            login_password.requestFocus();
-            login_password.selectAll();
-            showKeyboard(login_password);
-        }
-    }
-
     private void startProgressBar() {
-        if (snackBar != null)
-            snackBar.clear(true);
+        snackBar.dismiss();
         progress.start();
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
@@ -232,16 +219,26 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
 
     @UiThread
     public void showToastMessage(int messageId) {
-        if (snackBar != null)
-            snackBar.clear(true);
-        snackBar = new SnackBar.Builder(getActivity()).withMessageId(messageId)
-                .withActionMessageId(R.string.retry).withOnClickListener(new SnackBar.OnMessageClickListener() {
+        snackBar.applyStyle(R.style.SnackBarError);
+        snackBar.actionText(R.string.retry);
+        snackBar.text(messageId)
+                .actionClickListener(new SnackBar.OnActionClickListener() {
                     @Override
-                    public void onMessageClick(Parcelable token) {
+                    public void onActionClick(com.rey.material.widget.SnackBar sb, int actionId) {
                         nextButtonClicked();
                     }
-                })
-                .withDuration(SnackBar.PERMANENT_SNACK).withBackgroundColorId(android.R.color.holo_red_light).show();
+                });
+        if(snackBar.getState() == SnackBar.STATE_DISMISSED)
+            snackBar.show(getActivity());
+        else {
+            snackBar.dismiss();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    snackBar.show(getActivity());
+                }
+            }, 500);
+        }
     }
 
     public boolean onBackPressed() {
