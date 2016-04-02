@@ -16,9 +16,8 @@ import android.widget.TextView;
 import com.ccf.android.presentation.login.LoginFragmentPresenter;
 import com.ccf.android.ui.animation.DefaultAnimationListener;
 import com.ccf.android.ui.base.BaseFragment;
-import com.ccf.android.ui.widget.CircleImageView;
+import com.ccf.android.ui.widget.SnackBar;
 import com.ccf.login.view.R;
-import com.rey.material.widget.SnackBar;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -34,21 +33,21 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
     private static final int ANIMATION_TIME = 200;
     private static enum State {USER_STATE, PASSWORD_SATE};
     private LoginFragmentListener listener;
-    private com.rey.material.widget.SnackBar snackBar;
+    private com.ccf.android.ui.widget.SnackBar snackBar;
     private State state = State.USER_STATE;
 
     @ViewById android.support.v7.widget.CardView card_view;
     @ViewById EditText login_name;
-    @ViewById EditText login_password;
+    @ViewById com.ccf.android.ui.widget.PasswordEditText login_password;
     @ViewById TextView user_name_lastname;
-    @ViewById com.rey.material.widget.Button next_button;
-    @ViewById com.rey.material.widget.Button login_button;
-    @ViewById com.rey.material.widget.ProgressView progress;
+    @ViewById com.ccf.android.ui.widget.Button next_button;
+    @ViewById com.ccf.android.ui.widget.Button login_button;
+    @ViewById com.ccf.android.ui.widget.ProgressView progress;
     @ViewById TextView logging_text;
     @ViewById View login_layout;
     @ViewById View password_layout;
     @ViewById View back_arrow;
-    @ViewById CircleImageView profile_image;
+    @ViewById com.ccf.android.ui.widget.CircleImageView profile_image;
     @Inject LoginFragmentPresenter presenter;
 
     @AfterViews
@@ -56,7 +55,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
         listener = (LoginFragmentListener) getActivity();
         presenter.setView(this);
         presenter.init(getContext());
-        snackBar = new com.rey.material.widget.SnackBar(getActivity());
+        snackBar = new SnackBar(getActivity());
     }
 
     @Click
