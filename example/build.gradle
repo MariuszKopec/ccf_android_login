@@ -54,27 +54,21 @@ android {
 
 dependencies {
     def androidDependencies = rootProject.ext.androidDependencies
-    def testDependencies = rootProject.ext.testDependencies
 
     apt androidDependencies.annotations_apt
-    compile androidDependencies.annotations_api
 
     compile project(':login_view')
     compile project(':login_repository')
     compile project(':login_presentation')
 
     compile androidDependencies.baseUi
-    compile androidDependencies.appcompat_v7
-    compile androidDependencies.dagger
+
     apt androidDependencies.dagger_apt
     provided rootProject.ext.androidDependencies.javaxAnnotation
 
     compile('com.mikepenz:materialdrawer:3.0.6@aar') {
         transitive = true
     }
-
-    testCompile testDependencies.jUnit
-    testCompile testDependencies.mockito
 }
 
 apt {

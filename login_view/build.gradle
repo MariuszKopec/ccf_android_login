@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'android-apt'
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -27,26 +28,12 @@ android {
     }
 }
 
-apply plugin: 'android-apt'
 dependencies {
-    def androidDependencies = rootProject.ext.androidDependencies
-    def testDependencies = rootProject.ext.testDependencies
-
-    apt androidDependencies.annotations_apt
-    compile androidDependencies.annotations_api
-    compile androidDependencies.dagger
-    apt androidDependencies.dagger_apt
-
-    compile androidDependencies.appcompat_v7
-    compile androidDependencies.cardview_v7
-    compile androidDependencies.design
-    compile androidDependencies.material
+    apt rootProject.ext.androidDependencies.annotations_apt
+    apt rootProject.ext.androidDependencies.dagger_apt
 
     compile androidDependencies.baseUi
     compile project(':login_presentation')
-
-    testCompile testDependencies.jUnit
-    testCompile testDependencies.mockito
 }
 
 apt {
