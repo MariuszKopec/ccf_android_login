@@ -24,8 +24,8 @@ ext {
             javaxAnnotation:    "javax.annotation:jsr250-api:1.0",
             material:           "com.github.rey5137:material:1.2.2",
 
-            baseUi:             "com.ccf.android:ui_base:1.26",
-            basePresentation:   "com.ccf.android:presentation_base:1.15@aar"
+            baseUi:             "com.ccf.android:ui_base:1.31",
+            basePresentation:   "com.ccf.android:presentation_base:1.17"
     ]
 
     logicDependencies = [

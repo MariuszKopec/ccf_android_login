@@ -26,12 +26,6 @@ android {
 }
 
 dependencies {
-    compile rootProject.ext.logicDependencies.rxJava
-    compile rootProject.ext.logicDependencies.loginLogic
-    compile rootProject.ext.logicDependencies.baseLogic
-    compile androidDependencies.appcompat_v7
+    compile logicDependencies.loginLogic
     compile androidDependencies.basePresentation
-
-    testCompile rootProject.ext.testDependencies.jUnit
-    testCompile rootProject.ext.testDependencies.mockito
 }

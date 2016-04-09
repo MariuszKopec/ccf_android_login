@@ -1,6 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:card_view="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -9,8 +7,8 @@
 
     <com.ccf.android.ui.widget.ProgressView
         android:id="@+id/progress"
-        style="@style/CcfTheme.ProgressView"
         android:layout_width="match_parent"
+        android:layout_height="4dp"
         android:layout_gravity="center"/>
 
     <ScrollView
@@ -79,7 +77,6 @@
 
                         <com.ccf.android.ui.widget.Button
                             android:id="@+id/next_button"
-                            style="@style/CcfTheme.Button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/next"/>
@@ -107,15 +104,14 @@
 
                             <com.ccf.android.ui.widget.PasswordEditText
                                 android:id="@+id/login_password"
-                                style="@style/CcfTheme.EditText.Password"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:hint="@string/user_password"
                                 android:nextFocusDown="@+id/login_button"/>
                         </android.support.design.widget.TextInputLayout>
 
                         <com.ccf.android.ui.widget.Button
                             android:id="@+id/login_button"
-                            style="@style/CcfTheme.Button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/login"/>

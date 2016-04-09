@@ -147,12 +147,12 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
             password_layout.setVisibility(View.VISIBLE);
             login_layout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_left));
             back_arrow.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in));
-            setEnabled(true);
             stopProgressBar();
             Animation slideInRight = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_right);
             slideInRight.setAnimationListener(new DefaultAnimationListener() {
                 @Override
                 public void onAnimationEnd(Animation animation) {
+                    setEnabled(true);
                     back_arrow.setVisibility(View.VISIBLE);
                     login_layout.setVisibility(View.INVISIBLE);
                     login_password.requestFocus();
@@ -214,6 +214,10 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
         login_button.setEnabled(isEnabled);
         back_arrow.setEnabled(isEnabled);
         next_button.setEnabled(isEnabled);
+        if(isEnabled == false) {
+            login_name.clearFocus();
+            login_password.clearFocus();
+        }
     }
 
     @UiThread
