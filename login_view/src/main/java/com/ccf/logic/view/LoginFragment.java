@@ -1,6 +1,7 @@
 package com.ccf.logic.view;
 
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -30,11 +31,8 @@ import javax.inject.Inject;
 
 @EFragment(resName = "login_fragment_layout")
 public class LoginFragment extends BaseFragment implements LoginFragmentPresenter.LoginView {
-    private static final int ANIMATION_TIME = 200;
-    private static enum State {USER_STATE, PASSWORD_SATE};
     private LoginFragmentListener listener;
     private com.ccf.android.ui.widget.SnackBar snackBar;
-    private State state = State.USER_STATE;
 
     @ViewById android.support.v7.widget.CardView card_view;
     @ViewById EditText login_name;
@@ -46,7 +44,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
     @ViewById TextView logging_text;
     @ViewById View login_layout;
     @ViewById View password_layout;
-    @ViewById View back_arrow;
+    @ViewById com.ccf.android.ui.widget.BackImageView back_arrow;
     @ViewById com.ccf.android.ui.widget.CircleImageView profile_image;
     @Inject LoginFragmentPresenter presenter;
 
@@ -66,40 +64,169 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
 
     @Override
     @UiThread
-    public void showIncorrectLoginNameMassage() {
-        showToastMessage(R.string.invalid_username);
+    public void startProgressBar() {
+        snackBar.dismiss();
+        progress.start();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override
-    @UiThread
-    public void setBusyState() {
-        startProgressBar();
-        setEnabled(false);
+    public void disableLoginEdit() {
+        login_name.setEnabled(false);
+    }
+
+    @Override
+    public void disableNextButton() {
+        next_button.setEnabledWithAnimation(false);
+    }
+
+    @Override
+    public void enableLoginEdit() {
+        login_name.setEnabled(true);
+    }
+
+    @Override
+    public void enableNextButton() {
+        next_button.setEnabledWithAnimation(true);
+    }
+
+    @Override
+    public void stopProgressBar() {
+        progress.stop();
+    }
+
+    @Override
+    public void clearPassword() {
+        login_password.setText("");
+    }
+
+    @Override
+    public void setUserName(String userName) {
+        user_name_lastname.setText(userName);
+    }
+
+    @Override
+    public void setDefaultUserPicture() {
+        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_account_circle);
+        drawable.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorAccent), PorterDuff.Mode.MULTIPLY);
+        setUserPicture(drawable, true);
+    }
+
+    @Override
+    public void showBackButton() {
+        back_arrow.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in));
+    }
+
+    @Override
+    public void hideLoginLayout() {
+        Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_left);
+        anim.setAnimationListener(new DefaultAnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                login_layout.setVisibility(View.INVISIBLE);
+            }
+        });
+        login_layout.startAnimation(anim);
+    }
+
+    @Override
+    public void showPasswordLayout() {
+        password_layout.setVisibility(View.VISIBLE);
+        password_layout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_right));
     }
 
     @UiThread
     @Override
     public void setUserPicture(final Bitmap bitmap) {
-        final Drawable drawable = bitmap == null ? ContextCompat.getDrawable(getContext(), R.drawable.ic_account_circle) : new BitmapDrawable(getResources(), bitmap);
-        if (profile_image.getDrawable().getConstantState().equals(drawable.getConstantState()) == false) {
-            Animation fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
-            fadeOut.setAnimationListener(new DefaultAnimationListener() {
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    if (state == State.USER_STATE)
-                        profile_image.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_account_circle));
-                    else
-                        profile_image.setImageDrawable(drawable);
-                    profile_image.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in));
-                }
-            });
-            profile_image.startAnimation(fadeOut);
-        }
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(getResources(), bitmap);
+        setUserPicture(bitmapDrawable, false);
+    }
+
+    private void setUserPicture(final Drawable drawable, final boolean isColorFilter) {
+        Animation fadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
+        fadeOut.setAnimationListener(new DefaultAnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                profile_image.setImageDrawable(drawable);
+                if(isColorFilter)
+                    profile_image.setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorSecondary), PorterDuff.Mode.MULTIPLY);
+                else
+                    profile_image.setColorFilter(null);
+                profile_image.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in));
+            }
+        });
+        profile_image.startAnimation(fadeOut);
+    }
+
+    @Click
+    void loginButtonClicked() {
+        String login = login_name.getText().toString();
+        String pass = login_password.getText().toString();
+        presenter.loginButtonClicked(login, pass);
     }
 
     @Override
-    public boolean isPasswordState() {
-        return state == State.PASSWORD_SATE;
+    public void disablePasswordEdit() {
+        login_password.setEnabled(false);
+    }
+
+    @Override
+    public void disableLoginButton() {
+        login_button.setEnabledWithAnimation(false);
+    }
+
+    @Override
+    public void disableBackButton() {
+        back_arrow.setEnabledWithAnimation(false);
+    }
+
+    @Override
+    public void enablePasswordEdit() {
+        login_password.setEnabled(true);
+    }
+
+    @Override
+    public void enableLoginButton() {
+        login_button.setEnabledWithAnimation(true);
+    }
+
+    @Override
+    public void enableBackButton() {
+        back_arrow.setEnabledWithAnimation(true);
+    }
+
+    @Click
+    void backArrowClicked() {
+        presenter.backButtonClicked();
+    }
+
+    @Override
+    public void hidePasswordLayout() {
+        Animation slideOutRight = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_right);
+        slideOutRight.setAnimationListener(new DefaultAnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                password_layout.setVisibility(View.INVISIBLE);
+            }
+        });
+        password_layout.startAnimation(slideOutRight);
+    }
+
+    @Override
+    public void showLoginLayout() {
+        login_layout.setVisibility(View.VISIBLE);
+        login_layout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_left));
+    }
+
+    @Override
+    public void hideBackButton() {
+        back_arrow.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out));
+    }
+
+    @Override
+    @UiThread
+    public void showIncorrectLoginNameMassage() {
+        showToastMessage(R.string.invalid_username);
     }
 
     @Override
@@ -112,74 +239,6 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
     @UiThread
     public void showNoUserMessage() {
         showToastMessage(R.string.no_user);
-    }
-
-    @Override
-    @UiThread
-    public void setUserState() {
-        if (state == State.PASSWORD_SATE) {
-            login_layout.setVisibility(View.VISIBLE);
-            login_layout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_left));
-            back_arrow.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out));
-            stopProgressBar();
-            setUserPicture(null);
-            Animation slideOutRight = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_right);
-            slideOutRight.setAnimationListener(new DefaultAnimationListener() {
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    setEnabled(true);
-                    password_layout.setVisibility(View.INVISIBLE);
-                    login_name.requestFocus();
-                    login_name.selectAll();
-                    showKeyboard(login_name);
-                    state = State.USER_STATE;
-                }
-            });
-            password_layout.startAnimation(slideOutRight);
-        }
-    }
-
-    @Override
-    @UiThread
-    public void setPasswordState(final String name) {
-        if (state == State.USER_STATE) {
-            user_name_lastname.setText(name);
-            password_layout.setVisibility(View.VISIBLE);
-            login_layout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_out_left));
-            back_arrow.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in));
-            stopProgressBar();
-            Animation slideInRight = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_right);
-            slideInRight.setAnimationListener(new DefaultAnimationListener() {
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    setEnabled(true);
-                    back_arrow.setVisibility(View.VISIBLE);
-                    login_layout.setVisibility(View.INVISIBLE);
-                    login_password.requestFocus();
-                    login_password.selectAll();
-                    showKeyboard(login_password);
-                    state = State.PASSWORD_SATE;
-                }
-            });
-            password_layout.startAnimation(slideInRight);
-        }
-    }
-
-    @Override
-    public void setPasswordState() {
-        setPasswordState(user_name_lastname.getText().toString());
-    }
-
-    @Click
-    void backArrowClicked() {
-        presenter.backButtonClicked();
-    }
-
-    @Click
-    void loginButtonClicked() {
-        String login = login_name.getText().toString();
-        String pass = login_password.getText().toString();
-        presenter.loginButtonClicked(login, pass);
     }
 
     @EditorAction(resName = "login_name")
@@ -198,34 +257,11 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
         Log.e(getClass().getName(), "onLoginResponse_Failure", throwable);
     }
 
-    private void startProgressBar() {
-        snackBar.dismiss();
-        progress.start();
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-    }
-
-    private void stopProgressBar() {
-        progress.stop();
-    }
-
-    private void setEnabled(boolean isEnabled) {
-        login_name.setEnabled(isEnabled);
-        login_password.setEnabled(isEnabled);
-        login_button.setEnabled(isEnabled);
-        back_arrow.setEnabled(isEnabled);
-        next_button.setEnabled(isEnabled);
-        if(isEnabled == false) {
-            login_name.clearFocus();
-            login_password.clearFocus();
-        }
-    }
-
     @UiThread
     public void showToastMessage(int messageId) {
         snackBar.applyStyle(R.style.SnackBarError);
         snackBar.actionText(R.string.retry);
-        snackBar.text(messageId)
-                .actionClickListener(new SnackBar.OnActionClickListener() {
+        snackBar.text(messageId).actionClickListener(new SnackBar.OnActionClickListener() {
                     @Override
                     public void onActionClick(com.rey.material.widget.SnackBar sb, int actionId) {
                         nextButtonClicked();
@@ -244,9 +280,9 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
         }
     }
 
-    public boolean onBackPressed() {
-        return presenter.backButtonClicked();
-    }
+//    public boolean onBackPressed() {
+//        return presenter.backButtonClicked();
+//    }
 
     @Override
     public void onDestroy() {

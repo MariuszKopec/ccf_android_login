@@ -20,9 +20,9 @@ public class LoginActivity extends BaseActivity implements LoginFragmentListener
         listener.onLoginCorrect(this);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (login_fragment.onBackPressed() == false)
-            super.onBackPressed();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if (login_fragment.onBackPressed() == false)
+//            super.onBackPressed();
+//    }
 }

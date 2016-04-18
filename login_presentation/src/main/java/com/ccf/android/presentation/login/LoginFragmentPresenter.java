@@ -7,20 +7,40 @@ public interface LoginFragmentPresenter {
 
     void setView(LoginView view);
     void nextButtonClicked(String user);
-    boolean backButtonClicked();
+    void backButtonClicked();
     void loginButtonClicked(String user, String pass);
     void onDestroy();
 
+
     interface LoginView {
+        void startProgressBar();
+        void disableLoginEdit();
+        void disableNextButton();
+        void enableLoginEdit();
+        void enableNextButton();
+        void stopProgressBar();
+        void clearPassword();
+        void setUserName(String userName);
+        void setDefaultUserPicture();
+        void showBackButton();
+        void hideLoginLayout();
+        void showPasswordLayout();
+        void setUserPicture(Bitmap picture);
+
+        void disablePasswordEdit();
+        void disableLoginButton();
+        void disableBackButton();
+        void onLoginCorrect();
+        void enablePasswordEdit();
+        void enableLoginButton();
+        void enableBackButton();
+
+        void hidePasswordLayout();
+        void showLoginLayout();
+        void hideBackButton();
+
         void showIncorrectLoginNameMassage();
         void showNoUserMessage();
         void showUnknownExceptionMessage(Throwable throwable);
-        void setPasswordState(String userName);
-        void setUserState();
-        void setBusyState();
-        void setUserPicture(Bitmap picture);
-        void onLoginCorrect();
-        boolean isPasswordState();
-        void setPasswordState();
     }
 }

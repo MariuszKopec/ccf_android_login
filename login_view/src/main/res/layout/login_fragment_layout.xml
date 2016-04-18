@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context="com.ccf.logic.view.LoginFragment_">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ccf.logic.view.LoginFragment_">
 
     <com.ccf.android.ui.widget.ProgressView
         android:id="@+id/progress"
@@ -22,23 +22,22 @@
             style="@style/CcfTheme.CardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
             android:layout_gravity="center">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
-                android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <ImageView
+                <com.ccf.android.ui.widget.BackImageView
                     android:id="@+id/back_arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginBottom="-48dp"
-                    android:src="@drawable/ic_keyboard_arrow_left"
                     android:visibility="invisible"/>
 
                 <com.ccf.android.ui.widget.CircleImageView

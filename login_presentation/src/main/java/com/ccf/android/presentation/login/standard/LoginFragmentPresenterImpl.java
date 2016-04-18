@@ -29,6 +29,7 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
     @Override
     public void init(Object context) {
         getUserFromInit(context);
+        view.setDefaultUserPicture();
     }
 
     private void getUserFromInit(Object context) {
@@ -39,10 +40,13 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
 
     @Override
     public void nextButtonClicked(String login) {
+        unsubscribe();
         if (login == null || login.trim().length() == 0)
             view.showIncorrectLoginNameMassage();
         else {
-            view.setBusyState();
+            view.startProgressBar();
+            view.disableNextButton();
+            view.disableLoginEdit();
             getUser(login);
         }
     }
@@ -56,9 +60,15 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
     private void onUserReceived(User user) {
         if (user == null) {
             view.showNoUserMessage();
-            view.setUserState();
+            view.enableLoginEdit();
+            view.enableNextButton();
         } else {
-            view.setPasswordState(user.getName() + " " + user.getLastName());
+            view.stopProgressBar();
+            view.clearPassword();
+            view.setUserName(user.getName() + " " + user.getLastName());
+            view.showBackButton();
+            view.hideLoginLayout();
+            view.showPasswordLayout();
             getUserPicture(user.getLogin());
         }
     }
@@ -70,15 +80,16 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
     }
 
     private void onPictureReceived(Picture picture) {
-        if (view.isPasswordState()) {
-            Bitmap bitmap = bitmapUtils.decodeBitmapFromBase64(picture.getPicture());
-            view.setUserPicture(bitmap);
-        }
+        Bitmap bitmap = bitmapUtils.decodeBitmapFromBase64(picture.getPicture());
+        view.setUserPicture(bitmap);
     }
 
     @Override
     public void loginButtonClicked(String login, String pass) {
-        view.setBusyState();
+        view.startProgressBar();
+        view.disablePasswordEdit();
+        view.disableLoginButton();
+        view.disableBackButton();
         checkUserPassword(login, pass);
     }
 
@@ -91,25 +102,31 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
     private void onUserPasswordChecked(boolean isCorrect) {
         if (isCorrect)
             view.onLoginCorrect();
-        else
-            view.setPasswordState();
+        else {
+            view.stopProgressBar();
+            view.enablePasswordEdit();
+            view.enableLoginButton();
+            view.enableBackButton();
+        }
     }
 
     @Override
-    public boolean backButtonClicked() {
-        if (view.isPasswordState()) {
-            view.setUserState();
-            unsubscribe();
-            return true;
-        }
-        return false;
+    public void backButtonClicked() {
+        unsubscribe();
+        view.hidePasswordLayout();
+        view.showLoginLayout();
+        view.hideBackButton();
+        view.enableLoginEdit();
+        view.enableNextButton();
+        view.setDefaultUserPicture();
     }
 
     private final class GetUserFromInitSubscriber extends DefaultSubscriber<User> {
         @Override
         public void onError(Throwable e) {
             view.showUnknownExceptionMessage(e);
-            view.setUserState();
+            view.enableLoginEdit();
+            view.enableNextButton();
         }
 
         @Override
@@ -123,7 +140,8 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
         @Override
         public void onError(Throwable e) {
             view.showUnknownExceptionMessage(e);
-            view.setUserState();
+            view.enableLoginEdit();
+            view.enableNextButton();
         }
 
         @Override
@@ -148,7 +166,10 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
         @Override
         public void onError(Throwable e) {
             view.showUnknownExceptionMessage(e);
-            view.setUserState();
+            view.stopProgressBar();
+            view.enablePasswordEdit();
+            view.enableLoginButton();
+            view.enableBackButton();
         }
 
         @Override

@@ -28,4 +28,7 @@ android {
 dependencies {
     compile logicDependencies.loginLogic
     compile androidDependencies.basePresentation
+
+    testCompile testDependencies.jUnit
+    testCompile testDependencies.mockito
 }
