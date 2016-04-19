@@ -37,6 +37,15 @@ public class LoginFragmentPresenterTest {
     }
 
     @Test
+    public void testShouldShowLoginCardWhenInit() throws Exception {
+        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+
+        presenter.init(null);
+
+        Mockito.verify(view).showLoginCard();
+    }
+
+    @Test
     public void testShouldSetBusyStateWhenNextButtonClicked() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
@@ -172,12 +181,12 @@ public class LoginFragmentPresenterTest {
     }
 
     @Test
-    public void testShouldSetDefaultUserPictureWhenUserReceived() throws Exception {
+    public void testShouldSetUserPictureWhenUserReceived() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
-        Mockito.verify(view).setDefaultUserPicture();
+        Mockito.verify(view).setUserPicture(null);
     }
 
     @Test
@@ -298,6 +307,15 @@ public class LoginFragmentPresenterTest {
     }
 
     @Test
+    public void testShouldHideLoginCardWhenPasswordIsCorrect() throws Exception {
+        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+
+        presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
+
+        Mockito.verify(view).hideLoginCard();
+    }
+
+    @Test
     public void testShouldRaiseOnLoginCorrectWhenPasswordIsCorrect() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
@@ -361,7 +379,7 @@ public class LoginFragmentPresenterTest {
     }
 
     @Test
-    public void testShouldEnableLoginButtonTestWhenPasswordCheckResponseIsException() throws Exception {
+    public void testShouldEnableLoginButtonWhenPasswordCheckResponseIsException() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
@@ -418,7 +436,7 @@ public class LoginFragmentPresenterTest {
     public void testShouldHidePasswordLayoutWhenBackButtonClicked() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
-        presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
+        presenter.backButtonClicked();
 
         Mockito.verify(view).hidePasswordLayout();
     }
@@ -427,7 +445,7 @@ public class LoginFragmentPresenterTest {
     public void testShouldShowLoginLayoutWhenBackButtonClicked() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
-        presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
+        presenter.backButtonClicked();
 
         Mockito.verify(view).showLoginLayout();
     }
@@ -436,7 +454,7 @@ public class LoginFragmentPresenterTest {
     public void testShouldHideBackButtonWhenBackButtonClicked() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
-        presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
+        presenter.backButtonClicked();
 
         Mockito.verify(view).hideBackButton();
     }
@@ -445,7 +463,7 @@ public class LoginFragmentPresenterTest {
     public void testShouldEnableLoginEditWhenBackButtonClicked() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
-        presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
+        presenter.backButtonClicked();
 
         Mockito.verify(view).enableLoginEdit();
     }
@@ -454,7 +472,7 @@ public class LoginFragmentPresenterTest {
     public void testShouldEnableNextButtonWhenBackButtonClicked() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
-        presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
+        presenter.backButtonClicked();
 
         Mockito.verify(view).enableNextButton();
     }
@@ -463,7 +481,7 @@ public class LoginFragmentPresenterTest {
     public void testShouldSetDefaultUserPictureWhenBackButtonClicked() throws Exception {
         LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
-        presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
+        presenter.backButtonClicked();
 
         Mockito.verify(view).setDefaultUserPicture();
     }

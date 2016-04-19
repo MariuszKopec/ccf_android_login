@@ -13,6 +13,7 @@ public interface LoginFragmentPresenter {
 
 
     interface LoginView {
+        void showLoginCard();
         void startProgressBar();
         void disableLoginEdit();
         void disableNextButton();
@@ -30,6 +31,7 @@ public interface LoginFragmentPresenter {
         void disablePasswordEdit();
         void disableLoginButton();
         void disableBackButton();
+        void hideLoginCard();
         void onLoginCorrect();
         void enablePasswordEdit();
         void enableLoginButton();

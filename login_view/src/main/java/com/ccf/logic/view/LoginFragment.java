@@ -56,6 +56,14 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
         snackBar = new SnackBar(getActivity());
     }
 
+    public void showLoginCard() {
+        Animation bottomUp = AnimationUtils.loadAnimation(getContext(),
+                R.anim.bottom_up);
+        bottomUp.setInterpolator(new EaseCubicOutInterpolator());
+        card_view.startAnimation(bottomUp);
+        card_view.setVisibility(View.VISIBLE);
+    }
+
     @Click
     void nextButtonClicked() {
         String login = login_name.getText().toString();
@@ -178,6 +186,20 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
     @Override
     public void disableBackButton() {
         back_arrow.setEnabledWithAnimation(false);
+    }
+
+    public void hideLoginCard() {
+        Animation bottomUp = AnimationUtils.loadAnimation(getContext(),
+                R.anim.up_bottom);
+        bottomUp.setInterpolator(new EaseCubicInInterpolator());
+        bottomUp.setAnimationListener(new DefaultAnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                super.onAnimationEnd(animation);
+                card_view.setVisibility(View.GONE);
+            }
+        });
+        card_view.startAnimation(bottomUp);
     }
 
     @Override

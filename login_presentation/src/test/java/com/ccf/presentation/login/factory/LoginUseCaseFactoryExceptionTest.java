@@ -22,6 +22,6 @@ public class LoginUseCaseFactoryExceptionTest  implements LoginUseCaseFactory{
 
     @Override
     public UseCase checkUserPasswordUseCase(String login, String password) {
-        return null;
+        return new ReturnExceptionUseCaseMock();
     }
 }

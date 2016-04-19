@@ -1,7 +1,6 @@
 package com.ccf.android.presentation.login.standard;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 import com.ccf.android.presentation.base.BasePresenter;
 import com.ccf.android.presentation.login.LoginFragmentPresenter;
@@ -30,6 +29,7 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
     public void init(Object context) {
         getUserFromInit(context);
         view.setDefaultUserPicture();
+        view.showLoginCard();
     }
 
     private void getUserFromInit(Object context) {
@@ -100,8 +100,10 @@ public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFr
     }
 
     private void onUserPasswordChecked(boolean isCorrect) {
-        if (isCorrect)
+        if (isCorrect) {
+            view.hideLoginCard();
             view.onLoginCorrect();
+        }
         else {
             view.stopProgressBar();
             view.enablePasswordEdit();
