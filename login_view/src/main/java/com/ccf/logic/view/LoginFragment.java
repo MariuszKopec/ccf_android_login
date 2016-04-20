@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.ccf.android.presentation.login.LoginFragmentPresenter;
 import com.ccf.android.ui.animation.DefaultAnimationListener;
+import com.ccf.android.ui.animation.interporator.EaseCubicInInterpolator;
+import com.ccf.android.ui.animation.interporator.EaseCubicOutInterpolator;
 import com.ccf.android.ui.base.BaseFragment;
 import com.ccf.android.ui.widget.SnackBar;
 import com.ccf.login.view.R;
@@ -58,7 +60,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
 
     public void showLoginCard() {
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(),
-                R.anim.bottom_up);
+                R.anim.slide_in_bottom);
         bottomUp.setInterpolator(new EaseCubicOutInterpolator());
         card_view.startAnimation(bottomUp);
         card_view.setVisibility(View.VISIBLE);
@@ -190,7 +192,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentPresente
 
     public void hideLoginCard() {
         Animation bottomUp = AnimationUtils.loadAnimation(getContext(),
-                R.anim.up_bottom);
+                R.anim.slide_out_bottom);
         bottomUp.setInterpolator(new EaseCubicInInterpolator());
         bottomUp.setAnimationListener(new DefaultAnimationListener() {
             @Override

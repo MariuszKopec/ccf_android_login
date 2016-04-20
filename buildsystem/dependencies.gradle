@@ -24,7 +24,7 @@ ext {
             javaxAnnotation:    "javax.annotation:jsr250-api:1.0",
             material:           "com.github.rey5137:material:1.2.2",
 
-            baseUi:             "com.ccf.android:ui_base:1.47",
+            baseUi:             "com.ccf.android:ui_base:1.48",
             basePresentation:   "com.ccf.android:presentation_base:1.21"
     ]
 
