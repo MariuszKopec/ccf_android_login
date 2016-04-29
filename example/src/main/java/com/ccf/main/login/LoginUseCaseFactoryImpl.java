@@ -8,7 +8,7 @@ import com.ccf.logic.login.interactor.GetUserPictureUseCase;
 import com.ccf.logic.login.interactor.GetUserUseCase;
 import com.ccf.logic.login.interactor.InitUseCase;
 import com.ccf.logic.login.repository.LoginRepository;
-import com.ccf.logic.restclient.memory.LoginRepositoryMemory;
+import com.ccf.android.repository.login.memory.LoginRepositoryMemory;
 import com.ccf.main.application.CcfApplication;
 import com.ccf.android.presentation.login.standard.LoginUseCaseFactory;
 

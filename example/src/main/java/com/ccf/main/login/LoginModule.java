@@ -4,10 +4,10 @@ import android.app.Activity;
 
 import com.ccf.android.presentation.login.LoginFragmentPresenter;
 import com.ccf.android.presentation.login.standard.LoginFragmentPresenterImpl;
-import com.ccf.logic.view.LoginActivityListener;
-import com.ccf.logic.view.LoginActivity_;
-import com.ccf.logic.view.LoginFragment_;
+import com.ccf.android.view.login.LoginActivityListener;
 import com.ccf.android.presentation.utils.impl.BitmapUtilsImpl;
+import com.ccf.android.view.login.LoginActivity_;
+import com.ccf.android.view.login.LoginFragment_;
 
 import dagger.Module;
 import dagger.Provides;

@@ -1,9 +1,8 @@
-package com.ccf.logic.restclient.memory;
+package com.ccf.android.repository.login.memory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 
 import com.ccf.logic.login.Picture;
 import com.ccf.logic.login.User;

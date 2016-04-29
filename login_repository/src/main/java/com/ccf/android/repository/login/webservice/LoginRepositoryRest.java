@@ -1,16 +1,16 @@
-package com.ccf.logic.restclient.webservice;
+package com.ccf.android.repository.login.webservice;
 
 import android.content.Context;
 
 import com.ccf.logic.login.Picture;
 import com.ccf.logic.login.User;
 import com.ccf.logic.login.repository.LoginRepository;
-import com.ccf.logic.restclient.webservice.picture.PictureEntity;
-import com.ccf.logic.restclient.webservice.picture.PictureEntityMapper;
-import com.ccf.logic.restclient.webservice.picture.PictureEntityRequest;
-import com.ccf.logic.restclient.webservice.user.UserEntity;
-import com.ccf.logic.restclient.webservice.user.UserEntityMapper;
-import com.ccf.logic.restclient.webservice.user.UserEntityRequest;
+import com.ccf.android.repository.login.webservice.picture.PictureEntity;
+import com.ccf.android.repository.login.webservice.picture.PictureEntityMapper;
+import com.ccf.android.repository.login.webservice.picture.PictureEntityRequest;
+import com.ccf.android.repository.login.webservice.user.UserEntity;
+import com.ccf.android.repository.login.webservice.user.UserEntityMapper;
+import com.ccf.android.repository.login.webservice.user.UserEntityRequest;
 import com.octo.android.robospice.JacksonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;

@@ -8,7 +8,7 @@ import com.ccf.android.ui.di.Injector;
 import com.ccf.logic.executor.PostExecutionThread;
 import com.ccf.logic.executor.ThreadExecutor;
 import com.ccf.logic.repository.Repository;
-import com.ccf.logic.restclient.memory.LoginRepositoryMemory;
+import com.ccf.android.repository.login.memory.LoginRepositoryMemory;
 import com.ccf.main.login.LoginModule;
 
 import dagger.ObjectGraph;

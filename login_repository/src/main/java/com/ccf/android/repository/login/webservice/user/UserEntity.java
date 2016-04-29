@@ -1,4 +1,4 @@
-package com.ccf.logic.restclient.webservice.user;
+package com.ccf.android.repository.login.webservice.user;
 
 public class UserEntity {
     private long id;

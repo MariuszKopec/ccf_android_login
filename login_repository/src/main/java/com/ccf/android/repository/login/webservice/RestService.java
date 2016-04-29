@@ -1,4 +1,4 @@
-package com.ccf.logic.restclient.webservice;
+package com.ccf.android.repository.login.webservice;
 
 public class RestService {
 //    private SpiceManager spiceManager = new SpiceManager(JacksonSpringAndroidSpiceService.class);

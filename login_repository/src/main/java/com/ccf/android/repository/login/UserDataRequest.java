@@ -1,4 +1,4 @@
-package com.ccf.logic.restclient;
+package com.ccf.android.repository.login;
 
 
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;

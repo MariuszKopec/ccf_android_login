@@ -1,4 +1,4 @@
-package com.ccf.logic.view;
+package com.ccf.android.view.login;
 
 public interface LoginFragmentListener {
     void onLoginCorrect();

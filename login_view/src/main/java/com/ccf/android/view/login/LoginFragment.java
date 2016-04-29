@@ -1,4 +1,4 @@
-package com.ccf.logic.view;
+package com.ccf.android.view.login;
 
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;

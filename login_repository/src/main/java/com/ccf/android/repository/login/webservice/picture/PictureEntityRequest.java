@@ -1,4 +1,4 @@
-package com.ccf.logic.restclient.webservice.picture;
+package com.ccf.android.repository.login.webservice.picture;
 
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 
