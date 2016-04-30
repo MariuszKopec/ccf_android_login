@@ -20,7 +20,7 @@ public class LoginUseCaseFactoryImpl implements LoginUseCaseFactory {
     public LoginUseCaseFactoryImpl() {
         threadExecutor = CcfApplication.getInstance().getThreadExecutor();
         postExecutionThread = CcfApplication.getInstance().getPostExecutionThread();
-        repository = new LoginRepositoryMemory();
+        repository = (LoginRepository) CcfApplication.getInstance().getRepository();
     }
 
     @Override
