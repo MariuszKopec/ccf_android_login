@@ -2,12 +2,12 @@ package com.ccf.main.login;
 
 import android.app.Activity;
 
-import com.ccf.android.presentation.login.LoginFragmentPresenter;
-import com.ccf.android.presentation.login.standard.LoginFragmentPresenterImpl;
-import com.ccf.android.view.login.LoginActivityListener;
-import com.ccf.android.presentation.utils.impl.BitmapUtilsImpl;
-import com.ccf.android.view.login.LoginActivity_;
-import com.ccf.android.view.login.LoginFragment_;
+import com.ccf.android.ui.utils.impl.BitmapUtilsImpl;
+import com.ccf.android.view.login.activity.LoginActivityListener;
+import com.ccf.android.view.login.activity.LoginActivity_;
+import com.ccf.android.view.login.fragment.LoginFragment_;
+import com.ccf.android.view.login.presenter.LoginFragmentPresenter;
+import com.ccf.android.view.login.presenter.LoginFragmentPresenterImpl;
 
 import dagger.Module;
 import dagger.Provides;

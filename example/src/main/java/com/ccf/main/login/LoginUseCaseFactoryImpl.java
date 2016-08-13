@@ -8,9 +8,8 @@ import com.ccf.logic.login.interactor.GetUserPictureUseCase;
 import com.ccf.logic.login.interactor.GetUserUseCase;
 import com.ccf.logic.login.interactor.InitUseCase;
 import com.ccf.logic.login.repository.LoginRepository;
-import com.ccf.android.repository.login.memory.LoginRepositoryMemory;
 import com.ccf.main.application.CcfApplication;
-import com.ccf.android.presentation.login.standard.LoginUseCaseFactory;
+import com.ccf.android.view.login.presenter.LoginUseCaseFactory;
 
 public class LoginUseCaseFactoryImpl implements LoginUseCaseFactory {
     private ThreadExecutor threadExecutor;

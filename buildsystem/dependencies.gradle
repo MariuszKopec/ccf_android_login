@@ -5,27 +5,26 @@ allprojects {
 }
 
 ext {
-    androidBuildToolsVersion = "23.0.2"
+    androidBuildToolsVersion = "24.0.1"
     androidMinSdkVersion = 16
-    androidTargetSdkVersion = 23
-    androidCompileSdkVersion = 23
+    androidTargetSdkVersion = 24
+    androidCompileSdkVersion = 24
 
 
     androidDependencies = [
-            appcompat_v7:       "com.android.support:appcompat-v7:23.0.1",
-            cardview_v7:        "com.android.support:cardview-v7:23.0.1",
-            design:             "com.android.support:design:23.0.1",
-            supportV4:          "com.android.support:support-v4:23.0.1",
+            appcompat_v7:       "com.android.support:appcompat-v7:23.2.1",
+            cardview_v7:        "com.android.support:cardview-v7:23.2.1",
+            design:             "com.android.support:design:23.2.1",
+            supportV4:          "com.android.support:support-v4:23.2.1",
             dagger:             "com.squareup.dagger:dagger:1.2.0",
             dagger_apt:         "com.squareup.dagger:dagger-compiler:1.2.0",
             rxAndroid:          "io.reactivex:rxandroid:0.24.0",
             annotations_api:    "org.androidannotations:androidannotations-api:3.2",
             annotations_apt:    "org.androidannotations:androidannotations:3.2",
             javaxAnnotation:    "javax.annotation:jsr250-api:1.0",
-            material:           "com.github.rey5137:material:1.2.2",
+            material:           "com.github.rey5137:material:1.2.4",
 
-            baseUi:             "com.ccf.android:ui_base:1.48",
-            basePresentation:   "com.ccf.android:presentation_base:1.21"
+            baseUi:             "com.ccf.android:ui_base:1.62"
     ]
 
     logicDependencies = [

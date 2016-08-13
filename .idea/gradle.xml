@@ -10,7 +10,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/example" />
-            <option value="$PROJECT_DIR$/login_presentation" />
             <option value="$PROJECT_DIR$/login_repository" />
             <option value="$PROJECT_DIR$/login_view" />
           </set>
@@ -19,7 +18,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/example" />
-            <option value="$PROJECT_DIR$/login_presentation" />
             <option value="$PROJECT_DIR$/login_repository" />
             <option value="$PROJECT_DIR$/login_view" />
           </set>

@@ -59,7 +59,6 @@ dependencies {
 
     compile project(':login_view')
     compile project(':login_repository')
-    compile project(':login_presentation')
 
     compile androidDependencies.baseUi
 

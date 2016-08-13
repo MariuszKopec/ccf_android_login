@@ -2,13 +2,13 @@ package com.ccf.main.application;
 
 import android.app.Application;
 
-import com.ccf.android.presentation.executor.JobExecutor;
-import com.ccf.android.presentation.executor.UIThread;
+import com.ccf.android.repository.login.memory.LoginRepositoryMemory;
 import com.ccf.android.ui.di.Injector;
+import com.ccf.android.ui.executor.JobExecutor;
+import com.ccf.android.ui.executor.UIThread;
 import com.ccf.logic.executor.PostExecutionThread;
 import com.ccf.logic.executor.ThreadExecutor;
 import com.ccf.logic.repository.Repository;
-import com.ccf.android.repository.login.memory.LoginRepositoryMemory;
 import com.ccf.main.login.LoginModule;
 
 import dagger.ObjectGraph;

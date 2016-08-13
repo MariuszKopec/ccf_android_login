@@ -33,7 +33,10 @@ dependencies {
     apt rootProject.ext.androidDependencies.dagger_apt
 
     compile androidDependencies.baseUi
-    compile project(':login_presentation')
+    compile logicDependencies.loginLogic
+
+    testCompile rootProject.ext.testDependencies.jUnit
+    testCompile rootProject.ext.testDependencies.mockito
 }
 
 apt {

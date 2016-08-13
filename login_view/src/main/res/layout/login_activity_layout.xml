@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/login_fragment"
-        android:name="com.ccf.android.view.login.LoginFragment_"
+        android:name="com.ccf.android.view.login.fragment.LoginFragment_"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/login_fragment_layout" />
