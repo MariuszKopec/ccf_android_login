@@ -1,0 +1,30 @@
+before_install:
+ - chmod +x gradlew
+
+sudo: true
+
+language: android
+
+env:
+  global:
+    - GRADLE_OPTS="-Xmx4096m -Xms4096m -XX:MaxPermSize=4096m"
+    - ADB_INSTALL_TIMEOUT=8
+
+android:
+  components:
+     - tools
+     - tools
+     - platform-tools
+     - android-24
+     - build-tools-24.0.0
+     - extra-google-google_play_services
+     - extra-google-m2repository
+     - extra-android-m2repository
+
+jdk:
+  - oraclejdk8
+
+deploy:
+  provider: script
+  script: ./gradlew bintrayUpload -PbintrayUser=$BINTRAY_USERNAME -PbintrayKey=$BINTRAY_API_KEY -PdryRun=false
+  skip_cleanup: true

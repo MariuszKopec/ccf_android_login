@@ -10,6 +10,61 @@ buildscript {
 apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+def APP_VERSION = getVersion(file('version.properties'))
+
+version = APP_VERSION
+group = rootProject.ext.application_group
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name project.name
+            url rootProject.ext.website
+            inceptionYear '2016'
+            packaging rootProject.ext.website
+            groupId rootProject.ext.application_group
+            artifactId project.name
+            version APP_VERSION
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                connection rootProject.ext.website
+                url rootProject.ext.version_control_source
+            }
+            developers {
+                developer {
+                    name 'Mariusz'
+                }
+            }
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USERNAME')
+    key = System.getenv('BINTRAY_API_KEY')
+    configurations = ['archives']
+    pkg {
+        repo = rootProject.ext.repository
+        name = project.name
+        websiteUrl = rootProject.ext.website
+        issueTrackerUrl = rootProject.ext.website
+        vcsUrl = rootProject.ext.version_control_source
+        licenses = ['Apache-2.0']
+        labels = ['aar', 'android']
+        publicDownloadNumbers = true
+        publish = true
+    }
+}
 
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
@@ -53,5 +108,4 @@ dependencies {
     compile logicDependencies.loginLogic
     compile logicDependencies.baseLogic
     compile androidDependencies.rxAndroid
-
 }

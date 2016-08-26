@@ -1,0 +1,7 @@
+ext {
+    application_group = 'com.ccf.android'
+    version_control_source = 'https://github.com/MariuszKopec/ccf_android_login.git'
+    website = 'https://github.com/MariuszKopec/ccf_android_login'
+    repository = 'ccf_android'
+    inception_year = '2016'
+}
