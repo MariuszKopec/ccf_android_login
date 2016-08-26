@@ -96,6 +96,17 @@ android {
         disable 'InvalidPackage'  // Some libraries have issues with this
         disable 'OldTargetApi'    // Due to Robolectric that modifies the manifest when running tests
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'APK META-INF/notice.txt'
+    }
 }
 
 dependencies {
@@ -108,4 +119,11 @@ dependencies {
     compile logicDependencies.loginLogic
     compile logicDependencies.baseLogic
     compile androidDependencies.rxAndroid
+}
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+        applicationId android.defaultConfig.applicationId
+    }
 }
