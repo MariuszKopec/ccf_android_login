@@ -1,8 +1,8 @@
-package com.ccf.android.view.login.presenter;
+package com.ccf.android.view.login.login.presenter;
 
 import android.graphics.Bitmap;
 
-public interface LoginFragmentPresenter {
+public interface LoginPresenter {
     void init(Object args);
 
     void setView(LoginView view);

@@ -49,7 +49,7 @@ dependencies {
     compile project(':login_view')
     compile project(':login_repository')
 
-    compile androidDependencies.baseUi
+    compile androidDependencies.ui_cards
 
     apt androidDependencies.dagger_apt
     provided rootProject.ext.androidDependencies.javaxAnnotation

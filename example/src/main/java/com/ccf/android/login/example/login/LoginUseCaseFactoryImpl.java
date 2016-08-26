@@ -1,5 +1,8 @@
-package com.ccf.main.login;
+package com.ccf.android.login.example.login;
 
+import com.ccf.android.login.example.application.CcfApplication;
+import com.ccf.android.view.login.password_card.LoginPasswordUseCaseFactory;
+import com.ccf.android.view.login.user_card.LoginUserPresenterUseCaseFactory;
 import com.ccf.logic.executor.PostExecutionThread;
 import com.ccf.logic.executor.ThreadExecutor;
 import com.ccf.logic.interactor.UseCase;
@@ -8,10 +11,8 @@ import com.ccf.logic.login.interactor.GetUserPictureUseCase;
 import com.ccf.logic.login.interactor.GetUserUseCase;
 import com.ccf.logic.login.interactor.InitUseCase;
 import com.ccf.logic.login.repository.LoginRepository;
-import com.ccf.main.application.CcfApplication;
-import com.ccf.android.view.login.presenter.LoginUseCaseFactory;
 
-public class LoginUseCaseFactoryImpl implements LoginUseCaseFactory {
+public class LoginUseCaseFactoryImpl implements LoginUserPresenterUseCaseFactory, LoginPasswordUseCaseFactory {
     private ThreadExecutor threadExecutor;
     private PostExecutionThread postExecutionThread;
     private LoginRepository repository;
@@ -33,12 +34,12 @@ public class LoginUseCaseFactoryImpl implements LoginUseCaseFactory {
     }
 
     @Override
-    public UseCase getPictureUseCase(String login) {
-        return new GetUserPictureUseCase(login, repository, threadExecutor, postExecutionThread);
+    public UseCase getPictureUseCase() {
+        return new GetUserPictureUseCase("", repository, threadExecutor, postExecutionThread);
     }
 
     @Override
-    public UseCase checkUserPasswordUseCase(String login, String password) {
-        return new CheckUserPasswordUseCase(login, password, repository, threadExecutor, postExecutionThread);
+    public UseCase checkUserPasswordUseCase(String password) {
+        return new CheckUserPasswordUseCase("", password, repository, threadExecutor, postExecutionThread);
     }
 }

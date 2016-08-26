@@ -1,4 +1,4 @@
-package com.ccf.android.view.login.activity;
+package com.ccf.android.view.login.login.activity;
 
 import android.app.Activity;
 

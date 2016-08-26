@@ -23,8 +23,9 @@ ext {
             annotations_apt:    "org.androidannotations:androidannotations:3.2",
             javaxAnnotation:    "javax.annotation:jsr250-api:1.0",
             material:           "com.github.rey5137:material:1.2.4",
+            auth:               "com.google.firebase:firebase-auth:9.4.0",
 
-            baseUi:             "com.ccf.android:ui_base:1.62"
+            ui_cards:            "com.ccf.android:ui_cards:1.25"
     ]
 
     logicDependencies = [

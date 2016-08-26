@@ -1,4 +1,4 @@
-package com.ccf.main.application;
+package com.ccf.android.login.example.application;
 
 import android.app.Application;
 
@@ -9,7 +9,7 @@ import com.ccf.android.ui.executor.UIThread;
 import com.ccf.logic.executor.PostExecutionThread;
 import com.ccf.logic.executor.ThreadExecutor;
 import com.ccf.logic.repository.Repository;
-import com.ccf.main.login.LoginModule;
+import com.ccf.android.login.example.login.LoginModule;
 
 import dagger.ObjectGraph;
 

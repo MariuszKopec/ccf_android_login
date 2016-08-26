@@ -13,7 +13,7 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
-def APP_VERSION = getVersion(file('version.properties'))
+def APP_VERSION = getCcfVersion()
 
 version = APP_VERSION
 group = rootProject.ext.application_group

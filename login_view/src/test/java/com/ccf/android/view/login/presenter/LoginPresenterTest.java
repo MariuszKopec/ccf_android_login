@@ -3,6 +3,9 @@ package com.ccf.android.view.login.presenter;
 import android.graphics.Bitmap;
 
 import com.ccf.android.ui.utils.BitmapUtils;
+import com.ccf.android.view.login.login.presenter.LoginPresenter;
+import com.ccf.android.view.login.login.presenter.LoginPresenterImpl;
+import com.ccf.android.view.login.login.presenter.LoginUseCaseFactory;
 import com.ccf.android.view.login.presenter.factory.LoginUseCaseFactoryExceptionTest;
 import com.ccf.android.view.login.presenter.factory.LoginUseCaseFactoryFailureTest;
 import com.ccf.android.view.login.presenter.factory.LoginUseCaseFactoryNullTest;
@@ -17,25 +20,25 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LoginFragmentPresenterTest {
+public class LoginPresenterTest {
     private static final String LOGIN_NAME = "Sample login name";
     private static final String PASSWORD = "Sample password";
 
     @Mock
-    LoginFragmentPresenter.LoginView view;
+    LoginPresenter.LoginView view;
 
     @Mock
     BitmapUtils bitmapUtils;
 
-    private LoginFragmentPresenterImpl getLoginFragmentPresenter(LoginUseCaseFactory useCaseFactory) {
-        LoginFragmentPresenterImpl presenter = new LoginFragmentPresenterImpl(useCaseFactory, bitmapUtils);
+    private LoginPresenterImpl getLoginFragmentPresenter(LoginUseCaseFactory useCaseFactory) {
+        LoginPresenterImpl presenter = new LoginPresenterImpl(useCaseFactory, bitmapUtils);
         presenter.setView(view);
         return presenter;
     }
 
     @Test
     public void testShouldShowLoginCardWhenInit() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.init(null);
 
@@ -44,7 +47,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldSetBusyStateWhenNextButtonClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -53,7 +56,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldDisableLoginWhenNextButtonClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -62,7 +65,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldDisableNextButtonWhenNextButtonClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -71,7 +74,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowErrorMessageWhenLoginNull() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(null);
 
@@ -80,7 +83,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowErrorMessageWhenLoginEmpty() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked("");
 
@@ -89,7 +92,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowErrorMessageWhenLoginSpaces() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked("   ");
 
@@ -98,7 +101,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowNoUserMessageWhenReceivedUserIsNull() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -107,7 +110,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableLoginEditWhenReceivedUserIsNull() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -116,7 +119,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableNextButtonWhenReceivedUserIsNull() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -125,7 +128,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowUnknownExceptionMessageWhenUserResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -134,7 +137,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableLoginEditWhenUserResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -143,7 +146,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableNextButtonWhenUserResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -152,7 +155,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldStopProgressBarWhenUserReceived() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -161,7 +164,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldClearPasswordWhenUserReceived() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -170,7 +173,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldSetUserNameWhenUserReceived() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -179,7 +182,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldSetUserPictureWhenUserReceived() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -188,7 +191,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowBackButtonWhenUserReceived() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -197,7 +200,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldHideLoginLayoutWhenUserReceived() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -206,7 +209,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowHideLoginLayoutWhenUserReceived() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -215,7 +218,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowPasswordLayoutWhenUserReceived() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -224,7 +227,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowPicture() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -233,7 +236,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowErrorMessageWhenUserPictureResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryPictureExceptionOnlyTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryPictureExceptionOnlyTest());
 
         presenter.nextButtonClicked(LOGIN_NAME);
 
@@ -242,7 +245,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowUnknownExceptionMessageWhenInitUserResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.init(LOGIN_NAME);
 
@@ -251,7 +254,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableLoginEditWhenInitUserResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.init(LOGIN_NAME);
 
@@ -260,7 +263,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableNextButtonWhenInitUserResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.init(LOGIN_NAME);
 
@@ -269,7 +272,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldDisablePasswordEditWhenLoginButtonHasClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -278,7 +281,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldDisableLoginButtonWhenLoginButtonHasClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -287,7 +290,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldStartProgressBarWhenLoginButtonHasClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -296,7 +299,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldDisableBackButtonWhenLoginButtonHasClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -305,7 +308,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldHideLoginCardWhenPasswordIsCorrect() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -314,7 +317,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldRaiseOnLoginCorrectWhenPasswordIsCorrect() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -323,7 +326,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldStopProgressBarWhenPasswordCheckResponseIsFalse() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryFailureTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryFailureTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -332,7 +335,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnablePasswordEditTestWhenPasswordCheckResponseIsFalse() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryFailureTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryFailureTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -341,7 +344,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableLoginButtonTestWhenPasswordCheckResponseIsFalse() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryFailureTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryFailureTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -350,7 +353,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableBackButtonTestWhenPasswordCheckResponseIsFalse() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryFailureTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryFailureTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -359,7 +362,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldStopProgressBarWhenPasswordCheckResponseIsNull() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -368,7 +371,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnablePasswordEditTestWhenPasswordCheckResponseIsNull() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -377,7 +380,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableLoginButtonWhenPasswordCheckResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -386,7 +389,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableBackButtonTestWhenPasswordCheckResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -395,7 +398,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldStopProgressBarWhenPasswordCheckResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -404,7 +407,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnablePasswordEditTestWhenPasswordCheckResponseIsException() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryExceptionTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -413,7 +416,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableLoginButtonTestWhenPasswordCheckResponseIsNull() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -422,7 +425,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableBackButtonTestWhenPasswordCheckResponseIsNull() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.loginButtonClicked(LOGIN_NAME, PASSWORD);
 
@@ -431,7 +434,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldHidePasswordLayoutWhenBackButtonClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.backButtonClicked();
 
@@ -440,7 +443,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldShowLoginLayoutWhenBackButtonClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.backButtonClicked();
 
@@ -449,7 +452,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldHideBackButtonWhenBackButtonClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.backButtonClicked();
 
@@ -458,7 +461,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableLoginEditWhenBackButtonClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.backButtonClicked();
 
@@ -467,7 +470,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldEnableNextButtonWhenBackButtonClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.backButtonClicked();
 
@@ -476,7 +479,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldSetDefaultUserPictureWhenBackButtonClicked() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactoryNullTest());
 
         presenter.backButtonClicked();
 
@@ -485,7 +488,7 @@ public class LoginFragmentPresenterTest {
 
     @Test
     public void testShouldSetDefaultUserPictureWhenInit() throws Exception {
-        LoginFragmentPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
+        LoginPresenterImpl presenter = getLoginFragmentPresenter(new LoginUseCaseFactorySuccessTest());
 
         presenter.init(null);
 

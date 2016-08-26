@@ -1,4 +1,4 @@
-package com.ccf.main.application;
+package com.ccf.android.login.example.application;
 
 import android.content.Context;
 import android.content.Intent;

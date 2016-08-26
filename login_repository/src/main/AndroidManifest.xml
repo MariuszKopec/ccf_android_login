@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ccf.login.restclient">
+    package="com.ccf.android.repository.login">
 
     <application android:allowBackup="true" android:label="@string/app_name">
 

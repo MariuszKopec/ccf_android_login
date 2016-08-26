@@ -1,4 +1,4 @@
-package com.ccf.android.view.login.presenter;
+package com.ccf.android.view.login.login.presenter;
 
 import android.graphics.Bitmap;
 
@@ -9,18 +9,18 @@ import com.ccf.logic.interactor.UseCase;
 import com.ccf.logic.login.Picture;
 import com.ccf.logic.login.User;
 
-public class LoginFragmentPresenterImpl extends BasePresenter implements LoginFragmentPresenter {
+public class LoginPresenterImpl extends BasePresenter implements LoginPresenter {
     private final LoginUseCaseFactory useCaseFactory;
     private final BitmapUtils bitmapUtils;
-    private LoginFragmentPresenter.LoginView view;
+    private LoginPresenter.LoginView view;
 
-    public LoginFragmentPresenterImpl(LoginUseCaseFactory useCaseFactory, BitmapUtils bitmapUtils) {
+    public LoginPresenterImpl(LoginUseCaseFactory useCaseFactory, BitmapUtils bitmapUtils) {
         this.useCaseFactory = useCaseFactory;
         this.bitmapUtils = bitmapUtils;
     }
 
     @Override
-    public void setView(LoginFragmentPresenter.LoginView view) {
+    public void setView(LoginPresenter.LoginView view) {
         this.view = view;
     }
 

@@ -1,16 +1,16 @@
-package com.ccf.android.view.login.activity;
+package com.ccf.android.view.login.login.activity;
 
 
 import com.ccf.android.ui.base.BaseActivity;
-import com.ccf.android.view.login.fragment.LoginFragment;
-import com.ccf.android.view.login.fragment.LoginFragmentListener;
+import com.ccf.android.view.login.login.fragment.LoginFragment;
+import com.ccf.android.view.login.login.fragment.LoginFragmentListener;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
 
 import javax.inject.Inject;
 
-@EActivity(resName = "login_activity_layout")
+@EActivity(resName = "activity_login")
 public class LoginActivity extends BaseActivity implements LoginFragmentListener {
     @FragmentById
     LoginFragment login_fragment;

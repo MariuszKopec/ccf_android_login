@@ -7,7 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import com.ccf.logic.login.Picture;
 import com.ccf.logic.login.User;
 import com.ccf.logic.login.repository.LoginRepository;
-import com.ccf.login.restclient.R;
+import com.ccf.android.repository.login.R;
 
 import org.springframework.util.support.Base64;
 

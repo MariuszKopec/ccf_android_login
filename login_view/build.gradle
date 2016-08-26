@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'android-apt'
 
-def APP_VERSION = getVersion(file('version.properties'))
+def APP_VERSION = getCcfVersion()
 
 version = APP_VERSION
 group = rootProject.ext.application_group
@@ -88,7 +88,7 @@ dependencies {
     apt rootProject.ext.androidDependencies.annotations_apt
     apt rootProject.ext.androidDependencies.dagger_apt
 
-    compile androidDependencies.baseUi
+    compile androidDependencies.ui_cards
     compile logicDependencies.loginLogic
 
     testCompile rootProject.ext.testDependencies.jUnit
