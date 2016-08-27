@@ -2,6 +2,7 @@ def MAJOR_VERSION="1"
 def MINOR_VERSION="6"
 def BUILD_NUMBER="0"
 
+
 ext.getCcfVersion = {
     if (System.getenv('TRAVIS_BUILD_NUMBER') != null) {
         BUILD_NUMBER = System.getenv('TRAVIS_BUILD_NUMBER').toString()
